@@ -4,41 +4,52 @@
 @author: Simon Matern
 """
 
+from unittest import result
 import numpy as np
 import cv2
 import utils
 
+def convert_to_grayscale(img):
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    return gray
 
 def binarizeImage(img, thresh):
     """
     Given a coloured image and a threshold binarizes the image.
     Values below thresh are set to 0. All other values are set to 255
     """
-    # TODO
+    grayscale = convert_to_grayscale(img)
+    result = np.array(grayscale)
 
-    return img
+    for i in range(0, len(result)):
+        for j in range(0, len(result[i])):
+            if result[i][j] >= thresh:
+                result[i][j] = 255
+            else:
+                result[i][j] = 0
+    return result
+
 
 def smoothImage(img):    
     """
     Given a coloured image apply a blur on the image, e.g. Gaussian blur
     """
-    # TODO
-    return img
+    result = cv2.GaussianBlur(img,(5,51),cv2.BORDER_DEFAULT)
+    return result
 
 def doSomething(img):
     """
     Given a coloured image apply any image manipulation. Be creative!
     """
-    # TODO
-    
-    return img
+    result = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+
+    return result
 
 
 def processImage(img):
     """
     Given an coloured image applies the implemented smoothing and binarization.
     """
-    # TODO
     img = smoothImage(img)
     img = binarizeImage(img, 125)
     return img
